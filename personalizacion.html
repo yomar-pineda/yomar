@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalizador de Gorras</title>
+    <link rel="stylesheet" href="faq-styles.css"> <!-- Estilo específico -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <section id="inicio">
+        <div class="contenido">
+            <div class="contenido-header">
+                <nav id="nav" class="">
+                    <ul id="links">
+                        <li><a href="#inicio" class="seleccionado" onclick="seleccionar(this)">INICIO</a></li>
+                        <li><a href="#sobremi" onclick="seleccionar(this)">SOBRE MI</li>
+                        <li><a href="#portfolio" onclick="seleccionar(this)">SERVICIOS</a></li>
+                        <li><a href="#contacto" onclick="seleccionar(this)">CONCTACTO</a></li>
+                        <li><a href="#contacto" onclick="seleccionar(this)">MI PERFIL</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+</head>
+<body>
+    <link rel="stylesheet" href="styles.css">
+    <div class="container">
+        <!-- Panel izquierdo -->
+        <div class="sidebar">
+            <h3>Opciones de Personalización</h3>
+            <button onclick="toggleTextOptions()">🖋 Añadir texto</button>
+            <button onclick="addImage()">🖼 Añadir Diseño</button>
+            <input type="file" id="file-input" style="display: none;" accept=".jpg, .jpeg, .png" onchange="previewImage(event)">
+            <button onclick="showEmbroideryDesigns()">🎨 Ver diseños de bordado</button>
+            <button onclick="saveDesign()">💾 Guardar diseño</button>
+            <button onclick="loadSavedDesigns()">📂 Diseños guardados</button>
+            <div>
+                <label for="layers">Vistas:</label>
+                <select id="layers" onchange="changeCapView()">
+                    <option value="front">Frontal</option>
+                    <option value="left">Izquierda</option>
+                    <option value="right">Derecha</option>
+                    <option value="back">Trasera</option>
+                </select>
+            </div>
+        </div>
+        <div id="save-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeModal()">&times;</span>
+                <p>🎉 ¡Tu diseño de la gorra ha sido guardado correctamente!</p>
+            </div>
+        </div>
+        <!-- Contenedor donde se mostrará la imagen seleccionada -->
+        <div id="image-preview-container" style="margin-top: 10px;">
+            <img id="image-preview" src="" alt="Vista previa de la imagen" style="max-width: 300px; display: none;"/>
+        </div>
+        
+<!-- Estructura de la ventana emergente - Lista de diseños -->
+<div id="designModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeEmbroideryDesigns()">&times;</span>
+        <h3>Elige tu diseño de bordado</h3>
+        <div class="design-list">
+            <div class="design-item">
+                <img src="images/rama.png" alt="Diseño 1">
+                <p>B/.1,50</p>
+            </div>
+            <div class="design-item">
+                <img src="images/osoPanda.png" alt="Diseño 2">
+                <p>B/.1,50</p>
+            </div>
+            <div class="design-item">
+                <img src="images/Ok.png" alt="Diseño 3">
+                <p>B/.1,50</p>
+            </div>
+            <div class="design-item">
+                <img src="images/flor.png" alt="Diseño 3">
+                <p>B/.1,50</p>
+            </div>
+            <div class="design-item">
+                <img src="images/munecoNieve.png" alt="Diseño 3">
+                <p>B/.1,50</p>
+            </div>
+            <div class="design-item">
+                <img src="images/dosDedos.png" alt="Diseño 3">
+                <p>B/.1,50</p>
+            </div>
+            <div class="design-item">
+                <img src="images/rayo.png" alt="Diseño 3">
+                <p>B/.1,50</p>
+            </div>
+            <div class="design-item">
+                <img src="images/pinguino.png" alt="Diseño 3">
+                <p>B/.1,50</p>
+            </div>
+            <div class="design-item">
+                <img src="images/conejo.png" alt="Diseño 3">
+                <p>B/.1,50</p>
+            </div>
+            <div class="design-item">
+                <img src="images/foco.png" alt="Diseño 3">
+                <p>B/.1,50</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Zona de diseño -->
+<div class="design-area">
+    <div id="cap-container">
+        <!-- Imagen de la gorra -->
+        <img id="cap-image" src="images/1.png" alt="gorra">
+        <!-- Área donde se añadirán textos e imágenes -->
+        <div id="design-overlay"></div>
+    </div>
+
+    <!-- Controles de edición -->
+    <div class="controls">
+        <button onclick="zoom('in')">🔍+</button>
+        <button onclick="zoom('out')">🔍-</button>
+        <button onclick="undo()">↩️ Deshacer</button>
+        <button onclick="redo()">↪️ Rehacer</button>
+        <button onclick="clearDesign()">🗑 Limpiar diseño</button>
+    </div>
+</div>
+        <!-- Panel derecho -->
+        <div class="rightbar">
+            <h3>Opciones de color</h3>
+            <div class="color-picker">
+                <div class="color-box" style="background-color: black;" onclick="changeColor('black')"></div>
+                <div class="color-box" style="background-color: white;" onclick="changeColor('red')"></div>
+                <div class="color-box" style="background-color: blue;" onclick="changeColor('blue')"></div>
+                <div class="color-box" style="background-color: yellow;" onclick="changeColor('yellow')"></div>
+                <div class="color-box" style="background-color: pink;" onclick="changeColor('pink')"></div>
+                <div class="color-box" style="background-color: orange;" onclick="changeColor('orange')"></div>
+                <div class="color-box" style="background-color: green;" onclick="changeColor('green')"></div>
+                <div class="color-box" style="background-color: purple;" onclick="changeColor('purple')"></div>
+                <div class="color-box" style="background-color: gray;" onclick="changeColor('gray')"></div>
+                <div class="color-box" style="background-color: red;" onclick="changeColor('brown')"></div>
+                <button onclick="changeImageColor()">Cambiar color</button>
+            </div>
+
+            <h3>Cantidad</h3>
+            <input type="number" min="1" value="1" id="quantity" oninput="updatePrice()">
+            <p>Precio: <span id="price">B/.00.00</span></p>
+
+            <button onclick="showPopupCart()">🛒 Añadir al carrito</button>
+        </div>
+            <!-- Popup y su fondo -->
+    <div id="popup-cart-overlay" class="popup-cart-overlay">
+        <div class="popup-cart">
+            <p>¡Producto añadido al carrito! 🛒✨</p>
+            <button onclick="closePopupCart()">Cerrar</button>
+        </div>
+    </div>
+    </div>
+    <footer>
+        <div class="footer-line">
+            <div class="footer-redes">
+                <i>© 2024 CAPIFY. Todos los derechos reservados.</i>
+                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.linkedin.com/company/edyotech/"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram-square"></i></a>
+            </div>
+        </div>
+</footer>
+    <script src="script.js"></script>
+</body>
+</html>
